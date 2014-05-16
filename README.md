@@ -1,0 +1,1 @@
+Simple gettext implementation for JS
