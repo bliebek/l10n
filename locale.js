@@ -5,6 +5,14 @@
         lang,
         GetText = function(){};
 
+    GetText.prototype._paramsReplacer = function(m, i, params){
+        return typeof params[i] !== 'undefined' ? params[i] : '';
+    };
+
+    GetText.prototype._noKeyOrTranslation = function(key, translation){
+        return key === '' || key === undefined || key === null || key === false || translation === undefined;
+    };
+
     GetText.prototype.addTranslation = function(lang, obj){
         translations[lang] = obj;
     };
@@ -22,24 +30,22 @@
         return lang;
     };
 
+    GetText.prototype.noTranslationHandler = function(str){
+        return string;
+    };
+
     GetText.prototype._ = function (string) {
 
-        var localizedMessage = locale.data[string],
+        var me = this,
+            localizedMessage = locale.data[string],
             formatRe = /\{(\d+)\}/g,
             params = Array.prototype.slice.apply(arguments, [1]);
 
-        if( string === '' || string === undefined || string === null || string === false){
-            return '';
-        }
-        if(localizedMessage === undefined){
-            return string;
+        if(me._noKeyOrTranslation(string, localizedMessage)){
+            return me.noTranslationHandler();
         }
 
-        localizedMessage = localizedMessage.replace(formatRe, function(m, i) {
-            return typeof params[i] !== 'undefined' ? params[i] : '';
-        });
-
-        return localizedMessage;
+        return localizedMessage.replace(formatRe, me._paramsReplacer.bind(me, params));
     };
 
     if(typeof define === 'function' && define.amd){
