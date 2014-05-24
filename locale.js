@@ -13,6 +13,14 @@
         return key === '' || key === undefined || key === null || key === false || translation === undefined;
     };
 
+    GetText.prototype._replaceParams = function(message){
+        return message.replace(formatRe, me._paramsReplacer.bind(me, params));
+    };
+
+    GetText.prototype._pluralize = function(message){
+        return message;
+    };
+
     GetText.prototype.addTranslation = function(lang, obj){
         translations[lang] = obj;
     };
@@ -45,7 +53,7 @@
             return me.noTranslationHandler();
         }
 
-        return localizedMessage.replace(formatRe, me._paramsReplacer.bind(me, params));
+        return me._pluralize(me._replaceParams(localizedMessage));
     };
 
     if(typeof define === 'function' && define.amd){
