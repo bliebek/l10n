@@ -42,7 +42,7 @@ var translatedText = _('translationKey');
 Variables support:
 ```javascript
 // ...
-// 'translationKey': 'Translated text with variables: {{0}} {{1}} {{2}}'
+// 'translationKey': 'Translated text with variables: {0} {1} {2}'
 //
 var translatedTextWithVariables = _('translationKeyWithVariables', 'string', 0, 'any other variable');
 ```
