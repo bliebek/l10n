@@ -20,8 +20,20 @@ var obj = {
     }
 }
 ```
+
+Add translation:
+```javascript
+gettext.addTranslation('en_GB', obj);
+```
+
+Set language:
+```javascript
+gettext.setLang('en_GB');
+```
+
 Use gettext function across the app:
 ```javascript
+var _ = gettext._; // very handy
 var translatedText = _('translationKey');
 ```
 
