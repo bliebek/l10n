@@ -5,7 +5,7 @@
         lang,
         GetText = function(){};
 
-    GetText.prototype._paramsReplacer = function(m, i, params){
+    GetText.prototype._paramsReplacer = function(params, m, i){
         return typeof params[i] !== 'undefined' ? params[i] : '';
     };
 
@@ -13,7 +13,10 @@
         return key === '' || key === undefined || key === null || key === false || translation === undefined;
     };
 
-    GetText.prototype._replaceParams = function(message){
+    GetText.prototype._replaceParams = function(message, params){
+        var me = this,
+            formatRe = /\{(\d+)\}/g;
+
         return message.replace(formatRe, me._paramsReplacer.bind(me, params));
     };
 
@@ -45,15 +48,13 @@
     GetText.prototype._ = function (string) {
 
         var me = this,
-            localizedMessage = locale.data[string],
-            formatRe = /\{(\d+)\}/g,
-            params = Array.prototype.slice.apply(arguments, [1]);
+            localizedMessage = locale.data[string];
 
         if(me._noKeyOrTranslation(string, localizedMessage)){
             return me.noTranslationHandler();
         }
 
-        return me._pluralize(me._replaceParams(localizedMessage));
+        return me._pluralize(me._replaceParams(localizedMessage, Array.prototype.slice.apply(arguments, [1])));
     };
 
     if(typeof define === 'function' && define.amd){
