@@ -45,6 +45,12 @@
         return string;
     };
 
+    GetText.prototype.attach = function(root){
+        var me = this;
+
+        root._ = me._.bind(me);
+    };
+
     GetText.prototype._ = function (string) {
 
         var me = this,

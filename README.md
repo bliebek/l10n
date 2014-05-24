@@ -33,7 +33,7 @@ gettext.setLang('en_GB');
 
 Use gettext function across the app:
 ```javascript
-var _ = gettext._; // very handy
+gettext.attach(window); // very handy, allows to use global _ function instead of gettext._
 var translatedText = _('translationKey');
 ```
 
